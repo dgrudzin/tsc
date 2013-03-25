@@ -24,7 +24,7 @@ object HtmlClientWriter {
         </script>
       </head>
       <body>
-        <h1>Web Services Client</h1>{for (cl <- classes) yield nodeElement(cl, None)}
+        <h1>Web Services Client</h1><p>URL prefix: <input id="prefix" type="text" value="/stats"/></p>{for (cl <- classes) yield nodeElement(cl, None)}
       </body>
     </html>
 

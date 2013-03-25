@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $('#FORM_ID').submit(function(){
         var postData = $(this).serialize();
-        var request = $(this).attr('name');
+        var request = $('#prefix').val() + $(this).attr('name')
 
         // in case we have some path variables
         $.each($(this).serializeArray(), function(i, field) {

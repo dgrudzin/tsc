@@ -1,0 +1,50 @@
+body {
+  background: #fff;
+  color: #333;
+  font: 12px verdana, arial, helvetica, sans-serif;
+  margin: 20px;
+}
+
+a {
+  color: #003300;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  color: #000000;
+  font-weight: bold;
+  font-size: 3em;
+  text-align: left;
+}
+
+h2 {
+  color: #000000;
+  font-weight: normal;
+  font-size: 2em;
+}
+
+h3 {
+  color: #000000;
+  font-weight: normal;
+  font-size: 1.5em;
+}
+
+table {
+  border: none;
+  font-size: 1em;
+}
+
+th {
+  color: #fff;
+  background-color: #007c00;
+}
+
+td {
+  border: none;
+  border-bottom: 1px solid #ddd;
+  padding: .5em;
+}

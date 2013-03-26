@@ -13,7 +13,7 @@ As a minimum add the following lines to your project's pom file:
 <pre>
 &lt;build&gt;
       &lt;plugins&gt;
-        ...
+      ...
         &lt;plugin&gt;
             &lt;groupId&gt;org.tsc&lt;/groupId&gt;
             &lt;artifactId&gt;tsc&lt;/artifactId&gt;
@@ -34,7 +34,7 @@ As a minimum add the following lines to your project's pom file:
 and the console will be created and placed under you target folder.
 
 <p>
-Available configuration parameter:
+Available configuration parameters:
 
 <p>
 <b>destDir</b> - the directory to place the console file under, defaults to "${project.build.directory}/${project.artifactId}-${project.version}/tsc"

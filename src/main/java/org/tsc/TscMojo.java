@@ -11,6 +11,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.List;
 
 /**
  * @author Dmitry Grudzinskiy
@@ -30,6 +31,9 @@ public class TscMojo extends AbstractMojo {
     @Parameter(alias = "subpackages", property = "tsc.subpackages", defaultValue = "com")
     private String subpackages;
 
+    @Parameter(defaultValue = "${project.compileClasspathElements}", readonly = true)
+    private List<String> projectClassPath;
+
     @Parameter(alias = "css", property = "tsc.css", defaultValue = "")
     private String css;
 
@@ -40,12 +44,13 @@ public class TscMojo extends AbstractMojo {
         getLog().info("Destination directory - " + destDir);
         getLog().info("File name - " + fileName);
 
-        // build classpath
-        URL[] urls = ((URLClassLoader) getClass().getClassLoader()).getURLs();
+        // We need to use project classpath
         String classpath = "";
-        for (URL url : urls) {
-            classpath += url.getPath().substring(1) + File.pathSeparator;
+        for (String cle : projectClassPath) {
+            classpath += cle + File.pathSeparator;
         }
+
+        getLog().debug("ClassPath - " + classpath);
 
         // set the output property
         System.setProperty("destDir", destDir);

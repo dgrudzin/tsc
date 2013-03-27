@@ -68,7 +68,7 @@ object HtmlClientWriter {
 
   def paramInput(paramName: String, values: Map[String, String]) =
     <p>
-      {paramName + ":"}<input name={paramName} type="text" value={values.getOrElse("defaultValue", "").replaceAll("\"", "")}></input>
+      {values.getOrElse("value", paramName).replaceAll("\"", "") + ":"}<input name={values.getOrElse("value", paramName).replaceAll("\"", "")} type="text" value={values.getOrElse("defaultValue", "").replaceAll("\"", "")}></input>
     </p>
 
   private def formSenderScript(md: Method, cl: Class, getScript: String, anyScript: String) = {

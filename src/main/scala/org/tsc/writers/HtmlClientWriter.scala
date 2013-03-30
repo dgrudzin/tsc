@@ -24,7 +24,7 @@ object HtmlClientWriter {
         </script>
       </head>
       <body>
-        <h1>Web Services Client</h1><p>URL prefix: <input id="prefix" type="text" value="/stats"/></p>{for (cl <- classes) yield nodeElement(cl, None)}
+        <h1>REST API</h1><p>URL prefix: <input id="prefix" type="text" value="/stats"/></p>{for (cl <- classes) yield nodeElement(cl, None)}
       </body>
     </html>
 
@@ -41,6 +41,7 @@ object HtmlClientWriter {
         <h4>
           {fullPath(node, parent.get)}
         </h4>
+          <pre>{node.comment}</pre>
           <form id={serviceId(node, parent.get)} name={fullPath(node, parent.get)}
                 method={method(node, parent.get)}>
             <p>
@@ -51,7 +52,7 @@ object HtmlClientWriter {
             </p>
           </form> <hr/>
       case node: MethodParameter => {
-        paramInput(node.name, node.annotation.values)
+        paramInput(node.name, node.comment, node.annotation.values)
       }
     }
 
@@ -66,9 +67,10 @@ object HtmlClientWriter {
       case _ => ""
     }
 
-  def paramInput(paramName: String, values: Map[String, String]) =
+  def paramInput(paramName: String, comment: String, values: Map[String, String]) =
     <p>
       {values.getOrElse("value", paramName).replaceAll("\"", "") + ":"}<input name={values.getOrElse("value", paramName).replaceAll("\"", "")} type="text" value={values.getOrElse("defaultValue", "").replaceAll("\"", "")}></input>
+       - {comment}
     </p>
 
   private def formSenderScript(md: Method, cl: Class, getScript: String, anyScript: String) = {

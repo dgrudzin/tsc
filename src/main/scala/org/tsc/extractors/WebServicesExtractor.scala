@@ -2,7 +2,6 @@ package org.tsc.extractors
 
 import com.sun.javadoc._
 import org.tsc.descriptors._
-import com.sun.javadoc.AnnotationDesc.ElementValuePair
 
 /**
  *
@@ -36,6 +35,7 @@ object WebServicesExtractor {
   private def extractClass(classDoc: ClassDoc, annotation: AnnotationDesc) =
     Class(
       classDoc.name(),
+      classDoc.commentText(),
       extractAnnotation(annotation, ClassMethodAnnotations),
       (for (md <- classDoc.methods; an <- md.annotations if matchesType(an, RequestMapping)) yield extractMethod(md, an)).to[List]
     )
@@ -43,14 +43,19 @@ object WebServicesExtractor {
   private def extractMethod(methodDoc: MethodDoc, annotation: AnnotationDesc) =
     Method(
       methodDoc.name(),
+      methodDoc.commentText(),
       extractAnnotation(annotation, ClassMethodAnnotations),
-      (for (pd <- methodDoc.parameters(); an <- pd.annotations() if matchesType(an, PathVariable) || matchesType(an, RequestParam))
-      yield extractParameter(pd, an)).to[List]
+      methodDoc.parameters.flatMap(
+        (pd) => pd.annotations.filter(
+          (an) => matchesType(an, PathVariable) || matchesType(an, RequestParam)).map(
+            (fa) => extractParameter(pd, methodDoc.tags.find((tag) => tag.kind == "@param" && tag.asInstanceOf[ParamTag].parameterName == pd.name).map(_.asInstanceOf[ParamTag].parameterComment) getOrElse "", fa))
+      ).to[List]
     )
 
-  private def extractParameter(parameter: Parameter, annotation: AnnotationDesc) =
+  private def extractParameter(parameter: Parameter, comment: String, annotation: AnnotationDesc) =
     MethodParameter(
       parameter.name(),
+      comment,
       extractAnnotation(annotation, ParamAnnotations.get(annotation.annotationType.name).get)
     )
 
